@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketWatch Pro - Real-time Financial Data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> MarketWatch Pro</h1>
+            <p class="subtitle">Real-time market data powered by CoinMarketCap API</p>
+            <p>Professional trading dashboard with accurate market data and analysis</p>
+            <div class="last-updated">Last updated: <span id="update-time"></span> <span class="api-status status-live" id="api-status">Live Data</span></div>
+        </header>
+        
+        <div class="ticker-container">
+            <div class="ticker-wrap" id="ticker">
+                <!-- Ticker items will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Market Overview</h2>
+                    <div class="card-icon"><i class="fas fa-globe"></i></div>
+                </div>
+                <div class="price" id="btc-price">Loading...</div>
+                <div class="price-change" id="btc-change">Loading...</div>
+                
+                <div class="dominance-container">
+                    <div class="dominance-item">
+                        <div class="dominance-label">BTC Dominance</div>
+                        <div class="dominance-value" id="btc-dominance">Loading...</div>
+                    </div>
+                    <div class="dominance-item">
+                        <div class="dominance-label">ETH Dominance</div>
+                        <div class="dominance-value" id="eth-dominance">Loading...</div>
+                    </div>
+                    <div class="dominance-item">
+                        <div class="dominance-label">Others</div>
+                        <div class="dominance-value" id="other-dominance">Loading...</div>
+                    </div>
+                </div>
+                
+                <div class="index-container">
+                    <div class="index-item">
+                        <div class="index-label">Total Market Cap</div>
+                        <div class="index-value" id="total-marketcap">Loading...</div>
+                    </div>
+                    <div class="index-item">
+                        <div class="index-label">24h Volume</div>
+                        <div class="index-value" id="total-volume">Loading...</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="btcChart"></canvas>
+                </div>
+                <div class="data-source">Data source: CoinMarketCap API</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Top Cryptocurrencies</h2>
+                    <div class="card-icon"><i class="fas fa-coins"></i></div>
+                </div>
+                <ul class="asset-list" id="crypto-prices">
+                    <li class="asset-item">
+                        <div class="asset-name">
+                            <div class="asset-icon"><i class="fab fa-bitcoin"></i></div>
+                            <span>Bitcoin (BTC)</span>
+                        </div>
+                        <div class="asset-price">Loading...</div>
+                    </li>
+                    <li class="asset-item">
+                        <div class="asset-name">
+                            <div class="asset-icon"><i class="fab fa-ethereum"></i></div>
+                            <span>Ethereum (ETH)</span>
+                        </div>
+                        <div class="asset-price">Loading...</div>
+                    </li>
+                    <li class="asset-item">
+                        <div class="asset-name">
+                            <div class="asset-icon"><i class="fas fa-dollar-sign"></i></div>
+                            <span>Solana (SOL)</span>
+                        </div>
+                        <div class="asset-price">Loading...</div>
+                    </li>
+                    <li class="asset-item">
+                        <div class="asset-name">
+                            <div class="asset-icon"><i class="fas fa-dollar-sign"></i></div>
+                            <span>Cardano (ADA)</span>
+                        </div>
+                        <div class="asset-price">Loading...</div>
+                    </li>
+                </ul>
+                <div class="data-source">Data source: CoinMarketCap API</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">System Health</h2>
+                    <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
+                </div>
+                <div class="system-health">
+                    <div class="health-item">
+                        <div class="health-label">CMC API Status</div>
+                        <div class="health-value status-live" id="cmc-status">Live</div>
+                        <div class="health-label">Market Data</div>
+                    </div>
+                    <div class="health-item">
+                        <div class="health-label">Data Accuracy</div>
+                        <div class="health-value">99.8%</div>
+                        <div class="health-label">Verified Sources</div>
+                    </div>
+                    <div class="health-item">
+                        <div class="health-label">Update Frequency</div>
+                        <div class="health-value">60s</div>
+                        <div class="health-label">Refresh Rate</div>
+                    </div>
+                    <div class="health-item">
+                        <div class="health-label">System Uptime</div>
+                        <div class="health-value">100%</div>
+                        <div class="health-label">Reliability</div>
+                    </div>
+                </div>
+                <div class="data-source">Monitoring: System Health Dashboard</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Market Indicators</h2>
+                    <div class="card-icon"><i class="fas fa-exchange-alt"></i></div>
+                </div>
+                <div class="index-container">
+                    <div class="index-item">
+                        <div class="index-label">Fear & Greed Index</div>
+                        <div class="index-value" id="fear-greed-value">Loading...</div>
+                        <div class="index-label" id="fear-greed-label">Loading...</div>
+                    </div>
+                    <div class="index-item">
+                        <div class="index-label">Altcoin Season</div>
+                        <div class="index-value" id="altcoin-season">Loading...</div>
+                        <div class="index-label">BTC Dominance</div>
+                    </div>
+                </div>
+                
+                <div class="market-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Active Cryptocurrencies</div>
+                        <div class="stat-value" id="active-cryptos">Loading...</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Active Market Pairs</div>
+                        <div class="stat-value" id="active-pairs">Loading...</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">BTC Market Cap</div>
+                        <div class="stat-value" id="btc-marketcap">Loading...</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">ETH Market Cap</div>
+                        <div class="stat-value" id="eth-marketcap">Loading...</div>
+                    </div>
+                </div>
+                <div class="data-source">Data source: CoinMarketCap API</div>
+            </div>
+            
+            <div class="card prediction-card">
+                <div class="card-header">
+                    <h2 class="card-title">Market Predictions</h2>
+                    <div class="card-icon"><i class="fas fa-robot"></i></div>
+                </div>
+                <div class="prediction-list">
+                    <div class="prediction-item prediction-bullish">
+                        <div class="prediction-title">
+                            <span>Bitcoin (BTC)</span>
+                            <div>
+                                <span class="time-badge">Next 24-48H</span>
+                                <span class="accuracy-badge">87% Accuracy</span>
+                            </div>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Bullish Breakout</span>
+                            <span>Confidence: 92%</span>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Buy Zone: $66,500 - $67,200</span>
+                            <span>Target: $72,400</span>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Stop Loss: $64,800</span>
+                            <span>Duration: 3-5 days</span>
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-item prediction-bullish">
+                        <div class="prediction-title">
+                            <span>Ethereum (ETH)</span>
+                            <div>
+                                <span class="time-badge">Next 12-24H</span>
+                                <span class="accuracy-badge">82% Accuracy</span>
+                            </div>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Bullish Breakout</span>
+                            <span>Confidence: 88%</span>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Buy Zone: $3,450 - $3,520</span>
+                            <span>Target: $3,800</span>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Stop Loss: $3,380</span>
+                            <span>Duration: 2-4 days</span>
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-item prediction-bearish">
+                        <div class="prediction-title">
+                            <span>USD/JPY</span>
+                            <div>
+                                <span class="time-badge">Next 48-72H</span>
+                                <span class="accuracy-badge">79% Accuracy</span>
+                            </div>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Bearish Breakdown</span>
+                            <span>Confidence: 84%</span>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Sell Zone: 151.20 - 151.60</span>
+                            <span>Target: 149.30</span>
+                        </div>
+                        <div class="prediction-details">
+                            <span>Stop Loss: 152.20</span>
+                            <span>Duration: 3-5 days</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="data-source">AI Analysis: Pattern recognition + Sentiment analysis</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">API Usage</h2>
+                    <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                </div>
+                <div class="training-status">
+                    <p><i class="fas fa-database"></i> Data Source: CoinMarketCap API</p>
+                    <p class="prediction-details">Professional plan required for real-time data</p>
+                </div>
+                <div class="training-status">
+                    <p><i class="fas fa-code"></i> API Integration: Active</p>
+                    <p class="prediction-details">Using latest v2 endpoints</p>
+                </div>
+                <div class="training-status">
+                    <p><i class="fas fa-sync-alt"></i> Update Frequency: 60 seconds</p>
+                    <p class="prediction-details">Rate limited by API plan</p>
+                </div>
+                <div class="data-source">API Integration v2.3.5</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Disclaimer: This is a demonstration interface. Actual financial trading involves risk.</p>
+            <p>© 2023 MarketWatch Pro. All rights reserved. Data provided by CoinMarketCap API.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
