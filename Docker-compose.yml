@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - CMC_API_KEY=${CMC_API_KEY}
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+    volumes:
+      - ./backend:/app
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
