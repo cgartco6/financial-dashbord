@@ -1,2 +1,20 @@
+# Flask configuration
+FLASK_DEBUG=False
+SECRET_KEY=your-secret-key-here
+
+# CoinMarketCap API
 CMC_API_KEY=1166d943-7350-4996-88ae-0f842df38fde
-PORT=3001
+
+# Rate limiting
+RATE_LIMIT_MAX_REQUESTS=100
+RATE_LIMIT_TIME_WINDOW=3600
+
+# Cache
+CACHE_DURATION=60
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# CORS
+CORS_ORIGINS=http://localhost:3000,http://localhost:5000
